@@ -24,3 +24,15 @@ void setRemove (Set set, unsigned value) {
         printf("Array_Indice: %lu | Long_bit: %lu\nAPAGADO\n", value/SIZE, value%SIZE);
         } 
 }
+
+void setUnion( Set set1, Set set2 ){
+    for(int i = 0; i < BITMAP_PARTS; i++ ){
+      set1[i] |= set2[i];
+    }
+}
+
+void setIntersect( Set set1, Set set2 ){
+    for(int i = 0; i < BITMAP_PARTS; i++ ){
+      set1[i] &= set2[i];
+    }
+}
