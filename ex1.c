@@ -39,7 +39,7 @@ void setIntersect( Set set1, Set set2 ){
 }
 
 void setShow(Set set) {
-	printf("\nConjunto de valores = {");
+	printf("Conjunto de valores = {");
 	for (int i = 0; i <= BITMAP_PARTS-1; ++i) {	
 		for (int j = 0; j <= SIZE-1; ++j) {	
 			int tmp = j + SIZE * i;	
@@ -54,7 +54,7 @@ int main(){
 	Set B = {0};	
 	char buffer[256];
 	int exit = 0;
-	char* set = malloc(1000);
+	char* set = malloc(sizeof(char*));
 	char option;
 	long value;
 	printf("\t\t\tCONJUNTO DE VALORES\n\n"
@@ -73,7 +73,6 @@ int main(){
 			case 'p':
 				value = -1;
 				sscanf(buffer, "%s %lu",set, &value);
-				//if (set == 'a' ||set == 'A'){
 				if (strcmp ("a", set) == 0){
 					setPlace(A, value);
 				}
@@ -113,4 +112,5 @@ int main(){
 			}
 		
 	} while (!exit);
+	return 0;
 }
