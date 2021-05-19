@@ -68,7 +68,6 @@ int findTerm( char *str, char *terms[], int numTerms ){
 		printf("str:%s\n", &str[strlen(str)]-1);
 		//if (ret && (ret[strlen(ret)-1] == '\0')){			//VERIFICAR SE ULTIMA OCORRENCIA É O ULTIMO CHAR DA STRING MAS ESTA MAL FEITO
 		if (ret && (str[strlen(str)-1] == *ret)){			//VERIFICAR SE ULTIMA OCORRENCIA É O ULTIMO CHAR DA STRING MAS BEM FEITO?
-			
 			printf("ret:%s\n", ret);
 			printf("token found\n");
 			return strlen(str)-strlen(terms[i])-1;
