@@ -50,9 +50,6 @@ int loadDirList( Item list[], size_t size, char *path ){
 	int i = 0;
 	
 	while(i<size && ( de = readdir( d ) ) != NULL ){
-		///printf("%d\n", de->d_type);
-		//item->type = de->d_type;
-		//printf("%d\n", item->type);
 		if(de->d_type == 4){
 			item->type = T_DIRECTORY;
 		}
@@ -84,23 +81,7 @@ int cmpFunc(const void *p1, const void *p2){
 int cmpFuncAux(const void *p1, const void *p2){
     Item** aa = (Item**) p1;
     Item** bb = (Item**) p2;
-    /**
-    if(( (*aa)->term == strlen((*aa)->filename) ) && ( (*bb)->term == strlen((*bb)->filename) )){
-		//printf("sort aux\n");
-		return strcmp((*aa)->filename, (*bb)->filename);
-	}
-    if((*aa)->term == strlen((*aa)->filename)){
-		return 1;
-	}
-	if((*bb)->term == strlen((*bb)->filename)){
-		return -1;
-	}
-	**/
 
-	///COMO É QUE SEI QUAL O TERM??
-	//return strcmp((*aa)->filename, (*bb)->filename);
-    //return strcmp((*aa)->filename[(*aa)->term+1], (*bb)->filename[(*bb)->term+1]);
-    //return (*aa)->filename[(*aa)->term+1] - (*bb)->filename[(*bb)->term+1];
     int aux = strcmp( (*aa)->filename+(*aa)->term, (*bb)->filename+(*bb)->term );
     if (aux == 0){
 		return strcmp((*aa)->filename, (*bb)->filename);
@@ -121,7 +102,7 @@ int main(){
 
 	char option;	
 	Item *item = malloc(sizeof(Item)*500);
-	//Item *auxItem;
+
 	char *path = ".";
 	
 	loadDirList(item, MAX_ITEMS, path);
