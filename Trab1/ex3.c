@@ -86,7 +86,7 @@ int cmpFuncAux(const void *p1, const void *p2){
     if (aux == 0){
 		return strcmp((*aa)->filename, (*bb)->filename);
 	}
-    return strcmp( (*aa)->filename+(*aa)->term, (*bb)->filename+(*bb)->term );
+    return aux;
 }
 
 void sortList(Item list[], size_t num){
