@@ -117,29 +117,23 @@ int main(){
 		   "Intervalo de valores válido: \t[0, 255]\n"
 		   "Comando 'o'-original.\n"
 		   "Comando 'n'-name. \n"
-       "Comando 't word'-termination. \n"
-       "Comando 's word'-search. \n"
+       "Comando 't'-termination. \n"
+       "Comando 's'-search. \n"
 		   "Comando 'q'- quit.\n");
 		do{
 		scanf("%c", &option);
 		switch(option){
-			case 'l':
-				sortList(item, 9);
-				for(int i = 0; i< 9; ++i){
-					printf("type: %d\n", item[i].type);
-					printf("filename: %s\n", item[i].filename);
-					printf("term: %d\n", item[i].term);
-					printf("\n");		
-				}
-				printf("\n");
+			case 'o':
+			
 				break;
-			case 'f':
-				sortAuxList(auxList,9);
-				for(int i = 0; i< 9; ++i){
-					printf("filename: %s\n", auxList[i]->filename);
-					printf("\n");		
-				}
-				printf("\n");
+			case 'n':
+			
+				break;
+      case 't':
+			
+				break;
+      case 's':
+			
 				break;
 			case 'q':
 				exit = 1;
