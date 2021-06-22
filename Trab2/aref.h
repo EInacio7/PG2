@@ -10,4 +10,10 @@ typedef struct {
     FileInfo **data; // array de ponteiros
 } RefArray;
 
+RefArray *refArrCreate( void ); 
+void refArrDelete( RefArray *ra);
+void refArrAdd( RefArray *ra, FileInfo *ref ); 
+void refArrSort( RefArray *ra );
+void refArrScan( RefArray *ra, void (*act)(FileInfo *fi, void *param), void *actParam ); 
+
 #endif

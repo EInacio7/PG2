@@ -8,7 +8,7 @@
 FileInfo *fileInfoNew( char *sharedPath, char *name ){
 	FileInfo *fi = malloc(sizeof(FileInfo));
 	fi->path = sharedPath;
-	fi->name = strdup( name );
+	fi->name =  strcpy( malloc( strlen( name ) + 1 ), name );//strdup( name );
 	fi->term = termFind(sharedPath);
 	return fi;
 }
