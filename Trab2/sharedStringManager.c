@@ -1,26 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-
-
-
-typedef struct{
-    int space; // quantidade de elementos alojados para o array data
-    int count; // quantidade de elementos preenchidos
-    char **data; // array de ponteiros para as strings existentes
-} StrShare;
-
-typedef struct {
-   char *path; // string partilhada - localização do ficheiro
-   char *name; // string alojada dinamicamente - nome completo
-   int term; // posição da terminação no nome
-} FileInfo;
-
-typedef struct {
-    int space; // quantidade de elementos alojados para o array data
-    int count; // quantidade de elementos preenchidos
-    FileInfo **data; // array de ponteiros
-} RefArray;
+#include <stdlib.h>
+#include "strCol.h"
 
 /******** Na função abaixo falta verificar o numItems (para ver a quantidade de elementos alojados para o array data) *********/
 StrShare *strShareCreate(void){
@@ -47,14 +27,13 @@ void strShareDelete(StrShare *share){
 
 char *strSharedAdd( StrShare *share, char *str){
     if(share->count >= share->space){
-        share->data = realloc(share->data, (share->space += 15) * sizeof(*share->data)); 
-        //share->data = realloc(share->data, (share->space += 15) * sizeof(char *)) Perguntar ao Eng!!!!!!!!!!!!!!!!!!!!!!!
-        //share->data = realloc(share->data, sizeof(char *) * share->space); PEIXINHO
+        share->data = realloc(share->data, (share->space += 15) * sizeof(*share->data)); //sizeof porque aponta para primeiro elemento de data que é um char*
         if(share->data == NULL) {
 			    fprintf(stderr, "Error reallocating StrShare data field @ strShareAdd\n");
 		    	exit(EXIT_FAILURE);
         }
     }  
+    //share->data[share->count++] = strdup( str );
     share->data[share->count++] = str;
     return share->data[share->count-1];
 }
