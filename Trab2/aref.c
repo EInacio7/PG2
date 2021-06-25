@@ -44,5 +44,7 @@ void refArrSort( RefArray *ra ){
 }
 
 void refArrScan( RefArray *ra, void (*act)(FileInfo *fi, void *param), void *actParam ){
-
+	for (int i = 0; i < ra->count; i++){
+		(*act)(ra->data[i], actParam);
+	}
 }
