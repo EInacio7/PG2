@@ -26,6 +26,7 @@ int main(int argc, char *argv[]){
     refArrDelete(original);
     refArrDelete(sorted);
     strShareDelete(share);
+    return 0;
 }
 
 void showMenu() {
@@ -39,12 +40,12 @@ void showMenu() {
 }
 
 void cmpword(FileInfo *fi, void *param) {
-    char *separador = "->";
     if(fi->name==param){
-        printf(strcat(fi->name, strcat(separador, fi->path)));
+        //printf(strcat(fi->name, strcat(separador, fi->path)));
+        printf("Name: %s Path: %s",fi->name, fi->path);
     }
     if(fi->term==param){
-        printf(strcat(fi->name, strcat(separador, fi->path)));
+        printf("Name: %s Path: %s",fi->name, fi->path);
     }
 }
 
@@ -56,9 +57,9 @@ void setCommand(char *cmdLine, RefArray *original, RefArray *sorted) {
 		case 'o':
 		case 'O':
 			for(i=0;i<original->count;i++){
-                char* pathPlusName= strcat(original->data[i]->path, strcat(separador, original->data[i]->name))
+                char* pathPlusName= strcat(original->data[i]->path, strcat(separador, original->data[i]->name));
                 if(original->data[i]->term!=NULL){
-                    pathPlusName=strcat(pathPlusName, strcat(separador, original->data[i]->term))
+                    pathPlusName=strcat(pathPlusName, strcat(separador, original->data[i]->term));
                 }
                 printf(pathPlusName);
             }
@@ -66,9 +67,9 @@ void setCommand(char *cmdLine, RefArray *original, RefArray *sorted) {
         case 'n':
 		case 'N':
 			for(i=0;i<sorted->count;i++){
-                char* pathPlusName= strcat(sorted->data[i]->path, strcat(separador, sorted->data[i]->name))
+                char* pathPlusName= strcat(sorted->data[i]->path, strcat(separador, sorted->data[i]->name));
                 if(sorted->data[i]->term!=NULL){
-                    pathPlusName=strcat(pathPlusName, strcat(separador, sorted->data[i]->term))
+                    pathPlusName=strcat(pathPlusName, strcat(separador, sorted->data[i]->term));
                 }
                 printf(pathPlusName);
             }
