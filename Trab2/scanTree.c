@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <dirent.h>
 #include <string.h>
-#include "srtCol.h"
+#include "strCol.h"
 #include "file.h"
 #include "aref.h"
 
@@ -11,7 +11,7 @@ void scanDirTree( char *path, StrShare *pathShare, RefArray *origRef, RefArray *
     DIR* d = opendir(path);
     struct dirent * de;
     int files = 0;
-	srtShareAdd(pathShare, path);
+	strShareAdd(pathShare, path);
 	char *barra = "/";
 	while(( de = readdir( d ) ) != NULL ){
 		if(de->d_type == 4){

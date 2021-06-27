@@ -6,29 +6,6 @@
 #include "scanTree.h"
 
 
-int main(int argc, char *argv[]){
-    StrShare share = strShareCreate();
-    RefArray original = refArrCreate();
-    RefArray sorted = refArrCreate();
-    char *path = agrv[1];
-    scanDirTree(path,share,original,sorted);
-    refArrSort(sorted);
-    int toExit = 0;
-    do {
-		showMenu();
-		fgets(cmd, BUFF_SIZE, stdin);
-		char c = cmd[0];
-		if(c == 'q' || c == 'Q') toExit = 1;
-		setCommand(cmd, original, sorted);
-		printf("\n");
-	} while(!toExit);
-
-    refArrDelete(original);
-    refArrDelete(sorted);
-    strShareDelete(share);
-    return 0;
-}
-
 void showMenu() {
 	printf("Menu:\n");
 	printf("o - Displays the file list as originally found.\n");
@@ -56,7 +33,7 @@ void setCommand(char *cmdLine, RefArray *original, RefArray *sorted) {
 	switch(c) {
 		case 'o':
 		case 'O':
-			for(i=0;i<original->count;i++){
+			for(int i=0;i<original->count;i++){
                 char* pathPlusName= strcat(original->data[i]->path, strcat(separador, original->data[i]->name));
                 if(original->data[i]->term!=NULL){
                     pathPlusName=strcat(pathPlusName, strcat(separador, original->data[i]->term));
@@ -66,7 +43,7 @@ void setCommand(char *cmdLine, RefArray *original, RefArray *sorted) {
 			break;
         case 'n':
 		case 'N':
-			for(i=0;i<sorted->count;i++){
+			for(int i=0;i<sorted->count;i++){
                 char* pathPlusName= strcat(sorted->data[i]->path, strcat(separador, sorted->data[i]->name));
                 if(sorted->data[i]->term!=NULL){
                     pathPlusName=strcat(pathPlusName, strcat(separador, sorted->data[i]->term));
@@ -77,14 +54,14 @@ void setCommand(char *cmdLine, RefArray *original, RefArray *sorted) {
 		case 't':
 		case 'T':
 			if(sscanf(cmdLine + 1, "%s", word) == 1)
-				refArrScan(sorted,cmpword);// falta aplicar a função como deve ser
+				refArrScan(sorted,cmpword, word);// falta aplicar a função como deve ser
 			else
 				printf("Please provide a word\n");
 			break;
 		case 's':
 		case 'S':
 			if(sscanf(cmdLine + 1, "%s", word) == 1)
-				refArrScan(sorted,cmpword);// falta aplicar a função como deve ser
+				refArrScan(sorted,cmpword, word);// falta aplicar a função como deve ser
 			else
 				printf("Please provide a word\n");
 			break;
@@ -96,3 +73,28 @@ void setCommand(char *cmdLine, RefArray *original, RefArray *sorted) {
 			printf("Invalid operation!\n");
 	}
 }
+
+int main(int argc, char *argv[]){
+    StrShare *share = strShareCreate();
+    RefArray *original = refArrCreate();
+    RefArray *sorted = refArrCreate();
+    char *path = argv[1];
+    scanDirTree(path,share,original,sorted);
+    refArrSort(sorted);
+    char cmd[256];
+    int toExit = 0;
+    do {
+		showMenu();
+		fgets(cmd, 256, stdin);
+		char c = cmd[0];
+		if(c == 'q' || c == 'Q') toExit = 1;
+		setCommand(cmd, original, sorted);
+		printf("\n");
+	} while(!toExit);
+
+    refArrDelete(original);
+    refArrDelete(sorted);
+    strShareDelete(share);
+    return 0;
+}
+
