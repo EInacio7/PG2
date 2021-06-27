@@ -12,6 +12,7 @@ int main(int argc, char *argv[]){
     RefArray sorted = refArrCreate();
     char *path = agrv[1];
     scanDirTree(path,share,original,sorted);
+    refArrSort(sorted);
     int toExit = 0;
     do {
 		showMenu();
@@ -37,31 +38,52 @@ void showMenu() {
 	printf(">");
 }
 
+void cmpword(FileInfo *fi, void *param) {
+    char *separador = "->";
+    if(fi->name==param){
+        printf(strcat(fi->name, strcat(separador, fi->path)));
+    }
+    if(fi->term==param){
+        printf(strcat(fi->name, strcat(separador, fi->path)));
+    }
+}
+
 void setCommand(char *cmdLine, RefArray *original, RefArray *sorted) {
 	char c = cmdLine[0];
 	char word[256];
+    char *separador="->";
 	switch(c) {
 		case 'o':
 		case 'O':
 			for(i=0;i<original->count;i++){
-                printf(original->data[i]);
+                char* pathPlusName= strcat(original->data[i]->path, strcat(separador, original->data[i]->name))
+                if(original->data[i]->term!=NULL){
+                    pathPlusName=strcat(pathPlusName, strcat(separador, original->data[i]->term))
+                }
+                printf(pathPlusName);
             }
 			break;
         case 'n':
 		case 'N':
-			//do something
+			for(i=0;i<sorted->count;i++){
+                char* pathPlusName= strcat(sorted->data[i]->path, strcat(separador, sorted->data[i]->name))
+                if(sorted->data[i]->term!=NULL){
+                    pathPlusName=strcat(pathPlusName, strcat(separador, sorted->data[i]->term))
+                }
+                printf(pathPlusName);
+            }
 			break;
 		case 't':
 		case 'T':
 			if(sscanf(cmdLine + 1, "%s", word) == 1)
-				//do something
+				refArrScan(sorted,cmpword);// falta aplicar a função como deve ser
 			else
 				printf("Please provide a word\n");
 			break;
 		case 's':
 		case 'S':
 			if(sscanf(cmdLine + 1, "%s", word) == 1)
-				//do something
+				refArrScan(sorted,cmpword);// falta aplicar a função como deve ser
 			else
 				printf("Please provide a word\n");
 			break;
