@@ -21,5 +21,9 @@ aref.o: aref.c aref.h strCol.h
 	
 scanTree.o: scanTree.c scanTree.h file.h strCol.h aref.h
 	gcc $(CFLAGS) scanTree.c 
+	
+binTree.o: binTree.c binTree.h aref.h file.h
+	gcc $(CFLAGS) binTree.c 
+
 clean:
 	rm -rf *.o

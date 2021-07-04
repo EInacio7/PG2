@@ -9,8 +9,8 @@
 
 typedef struct tNode{
 	struct tNode *left, *right; // ponteiros de ligação
-	char termin[MAX_TERM]; // string - terminação representada
-	RefArray *refArr; // referencias associadas
+	char termin[MAX_TERM]; 		// string - terminação representada
+	RefArray *refArr; 			// referencias associadas
 } TNode; 
 
 void tAdd( TNode **rootPtr, char *termin, FileInfo *ref ); 
