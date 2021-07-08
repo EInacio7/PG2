@@ -7,12 +7,27 @@
 //2 -3 1 3 0 4 -7 8 6 -5 -7 1 8 9 5 -9 5 3 0 6 2 -1 9 4 7 7
 
 //C 
+int f2(void * e, size_t size_of_item) {
+ return *e == ALG;
+}
+void f3(void * e, size_t size_of_item) { 
+  *e = -ALG;
+}
 
+void * f1(void *a, size_t *size, size_t size_of_item, int (*fin)(void * e,size_t size_of_item ), void (*fac)(void * e,size_t size_of_item)) {
 
-
-a+i*elem
-
-
+    size_t i = *size; void *b ;
+    
+    while(i--)
+        if((*fin)(a+ i*size_of_item, size_of_item)){
+          
+          if((b = realloc(a, (*size + 1) * size_of_item)) == NULL) return b;
+          memmove(b+((*size)++ * size_of_item), b+i*size_of_item, size_of_item);
+          (*fac)(b+i*size_of_item,size_of_item);
+        
+        }
+    return b;
+}
 
 
 
