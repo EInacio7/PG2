@@ -3,12 +3,11 @@
 //a)
 void * insert_elem(void * a, int n_elem, void * elem, size_t el_size) {
 
-void * b = realloc(a, sizeof(a) + 1 + el_size);
-//ou realloc(a, sizeof(a) * sizeof(elem));
+void * b = realloc(a,  (n_elem+1)*(1+el_size);
 
 if (!b) return NULL; 
 
-char * t = ??????;
+char * t = b*(n_elem*(el_size+1));
 
 char * s = elem ;
  
@@ -24,8 +23,8 @@ while (el_size--)
 
 
 void invalidate_elem(void * a, int del_index, size_t el_size){
- (char)a[del_index(1+el_size)]=0; // BUT WHYYYYY
-} 
+ (char)a[del_index(1+el_size)]=0; 
+};
 
 //b)
 /*
@@ -46,3 +45,6 @@ print_elem faz print dos campos i,c e s da estrutura Data apontada pelo ponteiro
 3, 'D', "msg3"
 ---
 */
+
+// C)
+
