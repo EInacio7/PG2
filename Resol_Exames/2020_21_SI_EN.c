@@ -57,9 +57,31 @@ int cmpFuncName(const void *p1, const void *p2){
 }
 
 
-// C) ???
+// C)
+PathList *pathListBuild (char* initialPath){
+	char* filePath = malloc(100);
+	char* name = malloc(100);
+	int* size = malloc(sizeof(int));
+	PathList *PL = (PathList*) malloc(sizeof(*PL));
+	dirStart(initialPath);
+	while(dirNext(filePath, name, size)){
+		PL->path=filePath;
+		FileEntry *FE = malloc(sizeof(*FE));
+		FE->name=name;
+		FE->size=size;
+		FileSet *FS = malloc(sizeof(*FS));
+		PL->files = FileSetAdd(FS,FE);
+		FE-Path = PL;
+	}
+}
 
-// D) passar para aqui
+// D) 
+void pathListOrganize( PathList *list){
+    for(PathList *p = list; p!=NULL; p=p->next){
+      filesSetSort(p->files);
+    }
+} 
+
 
 
 // EX3
@@ -100,6 +122,8 @@ void bstSelectPrint( BstNode *r, char *name ){
   else if (aux<0) bstSelectPrint( &r->left, name );
   else bstSelectPrint( &r->right, name);
 }
+
+
 
 
 // EX4

@@ -33,7 +33,7 @@ print_array caso o "V" for True printa o elemento (data)
 print_elem faz print dos campos i,c e s da estrutura Data apontada pelo ponteiro p fornecido
 */
 
-/* C)
+/* 
 0, 'A', "msg0"
 1, 'B', "msg1"
 2, 'C', "msg2"
@@ -47,4 +47,47 @@ print_elem faz print dos campos i,c e s da estrutura Data apontada pelo ponteiro
 */
 
 // C)
+void *compress ()
 
+
+
+
+
+// EX2
+// A)
+LnodeLoc *locInsert( LnodeLoc *h, int page ){
+  LnodeLoc *n= malloc(sizeof *n);
+  n->page=page;
+  LnodeLoc *p,*a;
+   if(*h == NULL)
+         *h = n;
+  for( p = *h; p != NULL && page > p->page; a = p, p = p->next);
+   if(a->page==page) return h
+    n->next = p;
+      if( p == *h ) 
+            *h = n;
+            return h
+      else
+            a->next = n;
+}
+    
+
+
+
+
+
+
+// B)
+
+LnodeWord  *wordInsert( LnodeWord *h, const char * word, int page ){
+  LnodeWord *n= malloc(sizeof *n);
+  n->word=strdup(word);
+  LnodeWord *p
+   for( p = *h; p != NULL ;  p = p->next){
+     if (strcmp(p->word,word)==0) {
+       locInsert(p->locHead,page); return h;)}
+   }
+   locInsert(n->locHead,page)
+
+
+}
