@@ -1,8 +1,8 @@
 CFLAGS = -g -std=c99 -c 
 LFLAGS = -g
 
-app: app.o file.o fileTerm.o strCol.o aref.o scanTree.o binTree.o
-	gcc $(LFLAGS) app.o file.o fileTerm.o strCol.o aref.o scanTree.o binTree.o
+app: app.o file.o fileTerm.o strCol.o aref.o scanTree.o binTree.o hash.o
+	gcc $(LFLAGS) app.o file.o fileTerm.o strCol.o aref.o scanTree.o binTree.o hash.o
 	
 app.o: app.c aref.h file.h strCol.h scanTree.h
 	gcc $(CFLAGS) app.c 

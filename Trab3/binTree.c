@@ -24,19 +24,21 @@ TNode *sortedListToBalancedTree(TNode **listRoot, int n) {
 } 
 
 void tAdd(TNode **rootPtr, char *termin, FileInfo *ref){
+	
 	if(*rootPtr == NULL){
-		///char aux[20];
-		TNode *new = malloc(sizeof(*new));
-		new->refArr = refArrCreate();
+		
+		TNode *new = malloc(sizeof (*new));
 		new->left = new->right = NULL;
-		//new->termin = strcpy( malloc( strlen( termin ) + 1 ), termin );
-		///new->termin = aux;
-		//new->termin = *termin;
 		strcpy(new->termin, termin);
 		*rootPtr = new;
+		new->refArr = refArrCreate();
+		refArrAdd((*rootPtr)->refArr, ref );
+
 		return;
 	}
-	
+	printf("\n");
+	printf("roottermin: %s\n", (*rootPtr)->termin);
+	printf("termin: %s\n", termin);
 	int cmp = strcmp(termin, (*rootPtr)->termin);
 	if( cmp == 0){
 		refArrAdd((*rootPtr)->refArr, ref );
@@ -72,20 +74,24 @@ void tBalance( TNode **rootPtr ){
 
 RefArray *tSearch( TNode *root, char *termin){
 	if(root == NULL){
-		printf("Term não encontrada");
+		printf("Term não encontrada\n");
+		return NULL;
 	}
+	
+	printf("termin: %s\n", termin);
+	printf("root->termin: %s\n", root->termin);
 	
 	int cmp = strcmp(termin, root->termin);
 	if(cmp == 0){
 		return root->refArr;
 	}
-	else if(cmp < 0){
-		tSearch(root->left, termin);
+	if(cmp < 0){
+		return tSearch(root->left, termin);
 	}
-	else{
-		tSearch(root->right, termin);
-	}
-	return NULL;
+	
+	return tSearch(root->right, termin);
+	
+	
 }
 
 void tFree( TNode *root ){

@@ -14,6 +14,7 @@ static int hash( HTable *ht, char *data ){
 }
 
 static char *hLSearch( LNode *l, char *data ){
+	
 	for( LNode *p = l; p != NULL; p = p->next ){
 		if( strcmp( p->name, data ) == 0 )
 			return p->name;
@@ -22,11 +23,17 @@ static char *hLSearch( LNode *l, char *data ){
 }
 
 static LNode *hLAdd( LNode *l, char *data, FileInfo *ref  ){
+	
 	LNode *n = malloc( sizeof *n );
-	l->refArr = refArrCreate();
-	n->name = strcpy( malloc( strlen( data ) + 1 ), data ); //strdup( data );
-	n->next = l;
+	
+	n->refArr = refArrCreate();
 	refArrAdd(n->refArr, ref);
+	n->name = strcpy( malloc( strlen( data ) + 1 ), data ); //strdup( data );
+	//n->name = strdup(data);
+	
+	n->next = l;
+	
+	printf("here post hLAdd\n");
 	return n;
 }
 
@@ -39,22 +46,37 @@ HTable *hCreate( int size ){
 
 void hAdd( HTable *ht, char *name, FileInfo *ref ){
 	int i = hash( ht, name );
-	char *found = hLSearch( ht->table[i], name );
+	printf("rebenta\n");
+	//char *found = hLSearch( ht->table[i], name );
+	
+	char *found = malloc(sizeof(char*)*500);
+	found = hLSearch( ht->table[i], name );
+	
 	if( found == NULL ){
 		ht->table[i] = hLAdd( ht->table[i], name , ref);
 	}
+	
+	printf("here post hAdd\n");
 }
 
 RefArray *hSearch( HTable *ht, char * name){
 	int i = hash( ht, name );
 	//return hLSearch( ht->table[i], name );
-	char *found = hLSearch( ht->table[i], name );
+	
+	
+	if( hLSearch( ht->table[i], name ) != NULL ){
+		return ht->table[i]->refArr;
+	}
+	return NULL;
+	
+	/**char *found = hLSearch( ht->table[i], name );
+	
 	if( found != NULL ){
 		return ht->table[i]->refArr;
 	}
 	else{
 		return NULL;
-	}
+	}**/
 }
 
 static void freeList (LNode *head) {

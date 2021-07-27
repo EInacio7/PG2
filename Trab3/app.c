@@ -39,39 +39,42 @@ void cmpWordT(FileInfo *fi, void *param) {
 		printf("term: %d\n", fi->term);
 	}
 }
-/**int i = 0;
-static void tPrint( TNode *r ){
-	//i++;
-	printf("yo\n");
-	if( r == NULL )
-		return;
-	//tPrint( r->left );
-	printf( "%s\n", r->refArr->data[0]->name );
-	//tPrint( r->right );
-}**/
 
-void tPrintIndent( TNode *r, int h ){
-	if( r == NULL )
-		return;
-	tPrintIndent( r->left, h + 1 );
-	for( int i = 0; i < h; ++i )
-		printf( "   " );
-	printf( "%s\n", r->refArr->data[0]->name );
-	tPrintIndent( r->right, h + 1 );
+void printRef(FileInfo *fi, void *param){
+	
+	printf("\n");
+	printf("name: %s\n", fi->name);
+	printf("path: %s\n", fi->path);
+	printf("term: %d\n", fi->term);
 }
 
 void treeAux(FileInfo *fi, void *param){
 	
-	tAdd(param, "c", fi);
-	
-	tBalance(param);
-	tPrintIndent(param, 0);
-	//tPrint(param);
-	printf("hello\n");
+	char *terms[] = {"c", "h", "o"};
+	for (int i = 0; i < 3; i++){
+		if(!strcmp(&fi->name[(fi->term)+1], terms[i])){
+			tAdd(param, terms[i], fi);
+		}
+	}	
 }
 
+void hashAux(FileInfo *fi, void *param){
+	
+	/*char token[12];
+	memset(token, '\0', sizeof(token));
+	char* aux = strcpy( malloc( strlen( fi->name ) + 1 ), fi->name );
+	strncpy(token, aux, fi->term);
+	*/
+	char* token;
 
-void setCommand(char *cmdLine, RefArray *original, RefArray *sorted, TNode **rootPtr) {
+	token = strtok(fi->name, ".");
+	printf("%s\n", token);
+	hAdd(param, token, fi);
+	//free(token);
+	printf("here post aux\n");
+}
+
+void setCommand(char *cmdLine, RefArray *original, RefArray *sorted, TNode *rootPtr) {
 	char c = cmdLine[0];
 	char word[256]; ///----------------
 	switch(c) {
@@ -106,10 +109,19 @@ void setCommand(char *cmdLine, RefArray *original, RefArray *sorted, TNode **roo
 		case 't':
 		case 'T':
 			if(sscanf(cmdLine + 1, "%s", word) == 1){ ///----------------
-				//termsGlob=word;
-				//printf("hello\n");
-				//termSetup(word);
-				refArrScan(sorted,treeAux, rootPtr);
+				/**RefArray *found = tSearch(*rootPtr, word);
+				for(int i = 0; i < found->count; i++){
+					printf("name %s\n", found->data[i]->name);
+				}**/
+				
+				//printf("word: %s\n", word);
+				
+				RefArray *found = tSearch(rootPtr, word);
+				if (found){
+					printf("dsdsdsdsd: %s\n", found->data[0]->name);
+					refArrScan(found, printRef, NULL);
+				}
+				
 			}
 			else
 				printf("Please provide a word\n");
@@ -124,7 +136,7 @@ void setCommand(char *cmdLine, RefArray *original, RefArray *sorted, TNode **roo
 			break;
 		case 'q':
 		case 'Q':
-			printf("Exiting...\n");
+			printf("C Ya!\n");
 			
 			break;
 		default:
@@ -136,18 +148,25 @@ int main(int argc, char *argv[]){
 	
     StrShare *share = strShareCreate();
     RefArray *original = refArrCreate();
-    RefArray *sorted = refArrCreate();
+    RefArray *sortRef = refArrCreate();
     char *path = ".";
 
     
-    scanDirTree(path,share,original,sorted);
+    scanDirTree(path,share,original,sortRef);
     
-    printf("hello\n");
-    refArrSort(sorted);
+    printf("hellomain\n");
+    refArrSort(sortRef);
     
     TNode *root = NULL; // iniciar árvore vazia
-    //HTable *hashTable = hCreate( 100 );
-    //refArrScan(sorted,cmpWordS, root);
+    HTable *hashTable = hCreate( 100 );
+    
+    refArrScan(sortRef, hashAux, &hashTable);
+    
+
+    
+    refArrScan(sortRef, treeAux, &root);
+    tBalance(&root);
+    
     char cmd[256];
     
     int toExit = 0;
@@ -157,12 +176,12 @@ int main(int argc, char *argv[]){
 		fgets(cmd, 256, stdin);
 		char c = cmd[0];
 		if(c == 'q' || c == 'Q') toExit = 1;
-		setCommand(cmd, original, sorted, &root);
+		setCommand(cmd, original, sortRef, root);
 		printf("\n");
 	} while(!toExit);
 
     refArrDelete(original);
-    refArrDelete(sorted);
+    refArrDelete(sortRef);
     strShareDelete(share);
     return 0;
 }
