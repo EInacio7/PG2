@@ -58,6 +58,8 @@ void treeAux(FileInfo *fi, void *param){
 	}	
 }
 
+
+
 void hashAux(FileInfo *fi, void *param){
 	
 	/*char token[12];
@@ -70,11 +72,14 @@ void hashAux(FileInfo *fi, void *param){
 	token = strtok(fi->name, ".");
 	printf("%s\n", token);
 	hAdd(param, token, fi);
+	//hPrintDebug( param );
+	
+
 	//free(token);
 	printf("here post aux\n");
 }
 
-void setCommand(char *cmdLine, RefArray *original, RefArray *sorted, TNode *rootPtr) {
+void setCommand(char *cmdLine, RefArray *original, RefArray *sorted, TNode *rootPtr, HTable *ht) {
 	char c = cmdLine[0];
 	char word[256]; ///----------------
 	switch(c) {
@@ -109,16 +114,11 @@ void setCommand(char *cmdLine, RefArray *original, RefArray *sorted, TNode *root
 		case 't':
 		case 'T':
 			if(sscanf(cmdLine + 1, "%s", word) == 1){ ///----------------
-				/**RefArray *found = tSearch(*rootPtr, word);
-				for(int i = 0; i < found->count; i++){
-					printf("name %s\n", found->data[i]->name);
-				}**/
-				
-				//printf("word: %s\n", word);
 				
 				RefArray *found = tSearch(rootPtr, word);
+				//printf("sfalkndflkn:  %d\n", found->count);
 				if (found){
-					printf("dsdsdsdsd: %s\n", found->data[0]->name);
+					//printf("dsdsdsdsd: %s\n", found->data[0]->name);
 					refArrScan(found, printRef, NULL);
 				}
 				
@@ -129,6 +129,12 @@ void setCommand(char *cmdLine, RefArray *original, RefArray *sorted, TNode *root
 		case 's':
 		case 'S':
 			if(sscanf(cmdLine + 1, "%s", word) == 1){
+				RefArray *aux = hSearch(ht, word);
+				printf("sfalkndflkn:  %d\n", aux->count);
+				if (aux){
+					//printf("dsdsdsdsd: %s\n", found->data[0]->name);
+					refArrScan(aux, printRef, NULL);
+				}
 				//refArrScan(sorted,cmpWordS, rootPtr);
 			}
 			else
@@ -160,11 +166,9 @@ int main(int argc, char *argv[]){
     TNode *root = NULL; // iniciar árvore vazia
     HTable *hashTable = hCreate( 100 );
     
-    refArrScan(sortRef, hashAux, &hashTable);
-    
-
-    
     refArrScan(sortRef, treeAux, &root);
+    refArrScan(sortRef, hashAux, hashTable);
+    
     tBalance(&root);
     
     char cmd[256];
@@ -176,7 +180,7 @@ int main(int argc, char *argv[]){
 		fgets(cmd, 256, stdin);
 		char c = cmd[0];
 		if(c == 'q' || c == 'Q') toExit = 1;
-		setCommand(cmd, original, sortRef, root);
+		setCommand(cmd, original, sortRef, root, hashTable);
 		printf("\n");
 	} while(!toExit);
 
