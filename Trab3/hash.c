@@ -25,13 +25,14 @@ static LNode *hLAdd( LNode *l, char *data, FileInfo *ref  ){
 	
 	LNode *n = malloc( sizeof *n );
 	n->name = strcpy( malloc( strlen( data ) + 1 ), data ); //strdup( data );
-	n->next = l;
 	
 	n->refArr = refArrCreate();
 	refArrAdd(n->refArr, ref);
 	
-	printf("here post hLAdd\n");
+	n->next = l;
+
 	return n;
+
 }
 
 static void hLPrint( LNode *l ){
@@ -49,14 +50,17 @@ static int hash( HTable *ht, char *data ){
 }
 
 RefArray *hSearch( HTable *ht, char * name){
-	int i = hash( ht, name );
-	//return hLSearch( ht->table[i], name );
-
 	
+	int i = hash( ht, name );
+
 	if( hLSearch( ht->table[i], name )){
+
 		return ht->table[i]->refArr;
 	}
-	return NULL;
+	else{
+		printf("Ficheiro não encontrado\n");
+		return NULL;
+	}
 
 }
 
@@ -72,48 +76,35 @@ static void hPrintDebug( HTable *ht ){
 void hAdd( HTable *ht, char *name, FileInfo *ref ){
 
 	int i = hash( ht, name );
-	printf("[%d]\n", i);
-	printf("rebenta\n");
 	
 	char *found = hLSearch( ht->table[i], name );
-	
-	/*char *found = malloc(sizeof(char*)*500);
-	found = hLSearch( ht->table[i], name );*/
 	
 	if( found == NULL ){
 		ht->table[i] = hLAdd( ht->table[i], name , ref);
 	}
-	//hPrintDebug( ht );
-	//printf("here post hAdd\n");
-}
-
-static void freeList (LNode *head) {
-	if (head != NULL) {
-		freeList(head->next);
-		free(head);
+	else{
+		refArrAdd(ht->table[i]->refArr, ref);
 	}
 }
 
 void hFree( HTable *ht ){
-	/*for(int i = 0; i < 256; i++) {
-		freeList(ht->table[i]);
-		free(ht->table);
-	}*/
-
 	
-	if(ht == NULL) return;
-	if(ht->table != NULL) {
-		for(int i = 0; i < 256; i++) {
-			LNode *it = ht->table[i], *aux;
-			while(it) {
-				free(it->name);
-				aux = it;
-				it = it->next;
-				free(aux);
-				refArrDelete(it->refArr);
-			}
+	LNode *in = malloc(sizeof *in);
+	
+	for( int i = 0; i < ht->size; ++i ){
+		
+		for( LNode *p = ht->table[i]; p != NULL;){
+			
+			in = p;
+			
+			 p = p->next;
+			
+			free(in);
+			
 		}
-		free(ht->table);
+		
 	}
+	
 	free(ht);
+	
 }

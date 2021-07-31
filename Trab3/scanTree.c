@@ -20,11 +20,10 @@
 
 
 void scanDirTree( char *path, StrShare *pathShare, RefArray *origRef, RefArray *sortRef ){
-	
+
     DIR* d;
     struct dirent *de;
     d = opendir(path);
-    //printf("path: %s\n", path);
 	strSharedAdd(pathShare, path);
 	
 	if (d == NULL) {
@@ -35,21 +34,16 @@ void scanDirTree( char *path, StrShare *pathShare, RefArray *origRef, RefArray *
 	while(( de = readdir( d ) ) != NULL ){
 		if(de->d_type == DT_DIR){
 			if (strcmp(de->d_name, ".") != 0 && strcmp(de->d_name, "..") != 0) {
-				//printf("name DIR %s\n", de->d_name);
-				//printf("%s\n", de->d_name);
 				char *new_path = (char *)malloc(strlen(path) + strlen(de->d_name) + 1);
 				sprintf(new_path, "%s/%s", path, de->d_name);
-				printf("new path %s\n", new_path);
 				FileInfo *directory = fileInfoNew(path, de->d_name);
 				refArrAdd(origRef, directory);
 				refArrAdd(sortRef, directory);
 				scanDirTree(new_path, pathShare, origRef, sortRef);
-				//strSharedAdd(pathShare, new_path);
 				free(new_path);
 			}
 		}
 		else{
-			//printf("name FILE %s\n", de->d_name);
 			FileInfo *file = fileInfoNew(path, de->d_name);
 			refArrAdd(origRef, file);
 			refArrAdd(sortRef, file);

@@ -7,9 +7,7 @@ char **termsGlob = NULL;
 int numTermsGlob= 0;
 
 void termSetupTypes( char *terms[], int numTerms ){
-  /*for (int i = 0; i < numTerms; i++){
-      termsGlob[i] = terms[i];
-  }*/
+
   termsGlob=terms;
   numTermsGlob=numTerms;
 }

@@ -8,7 +8,9 @@ char *terms[] = {"c", "h", "o", "txt"};
 FileInfo *fileInfoNew( char *sharedPath, char *name ){
 	FileInfo *fi = malloc(sizeof(FileInfo));
 	fi->path = strcpy( malloc( strlen( sharedPath ) + 1 ), sharedPath );
-	fi->name =  strcpy( malloc( strlen( name ) + 1 ), name );//strdup( name );
+	
+	fi->name = strcpy( malloc( strlen( name ) + 1 ), name );//strdup( name );
+	
 	termSetupTypes(terms, 4);
 	fi->term = termFind(name);
 	return fi;

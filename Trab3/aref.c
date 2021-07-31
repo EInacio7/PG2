@@ -25,6 +25,7 @@ void refArrAdd( RefArray *ra, FileInfo *ref ){
 	if (ra->count == ra->space){
 		ra->data = realloc(ra->data, (ra->space += 15) * sizeof(*ra->data));
 	}
+	//printf("%s\n",ref->name);
 	ra->data[ra->count++] = ref;
 }
 

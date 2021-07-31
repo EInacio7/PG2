@@ -36,9 +36,7 @@ void tAdd(TNode **rootPtr, char *termin, FileInfo *ref){
 
 		return;
 	}
-	printf("\n");
-	printf("roottermin: %s\n", (*rootPtr)->termin);
-	printf("termin: %s\n", termin);
+
 	int cmp = strcmp(termin, (*rootPtr)->termin);
 	if( cmp == 0){
 		refArrAdd((*rootPtr)->refArr, ref );
@@ -53,15 +51,7 @@ void tAdd(TNode **rootPtr, char *termin, FileInfo *ref){
 
 //funçao auxiliar para contar elementos numa arvore
 int treeElemCount(TNode *r){
-   /**int c =  1;             //Deve contar o Node passado
-   if (r ==NULL){
-       return 0;
-   }
-   else{
-       c += treeElemCount(r->left);
-       c += treeElemCount(r->right);
-       return c;
-   }**/
+
    	if( r == NULL )
 		return 0;
 	return 1 + treeElemCount( r->left ) + treeElemCount( r->right );
@@ -78,9 +68,6 @@ RefArray *tSearch( TNode *root, char *termin){
 		return NULL;
 	}
 	
-	printf("termin: %s\n", termin);
-	printf("root->termin: %s\n", root->termin);
-	
 	int cmp = strcmp(termin, root->termin);
 	if(cmp == 0){
 		return root->refArr;
@@ -90,8 +77,6 @@ RefArray *tSearch( TNode *root, char *termin){
 	}
 	
 	return tSearch(root->right, termin);
-	
-	
 }
 
 void tFree( TNode *root ){
